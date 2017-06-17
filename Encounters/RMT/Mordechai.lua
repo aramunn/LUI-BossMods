@@ -42,6 +42,10 @@ local Locales = {
         ["label.shuriken"] = "Shuriken",
         ["label.airlock"] = "Airlock",
         ["label.stack_point"] = "Barrage Stack Point",
+        ["label.kinetic_link_party"] = "Kinetic Link Unit (Party)",
+        ["label.kinetic_link_debug"] = "Kinetic Link Unit (Debug)",
+        -- Hacks
+        ["hacks.kinetic_link"] = "%s has Kinetic Link!",
     },
     ["deDE"] = {},
     ["frFR"] = {
@@ -198,6 +202,18 @@ function Mod:new(o)
                 duration = 3,
                 position = 6,
                 label = "alert.midphase",
+            },
+            kinetic_link_party = {
+                enable = true,
+                duration = 3,
+                position = 7,
+                label = "label.kinetic_link_party",
+            },
+            kinetic_link_debug = {
+                enable = true,
+                duration = 3,
+                position = 8,
+                label = "label.kinetic_link_debug",
             },
         },
         sounds = {
@@ -372,6 +388,13 @@ function Mod:OnBuffAdded(nId, nSpellId, sName, tData, sUnitName, nStack, nDurati
             self.core:PlaySound(self.config.sounds.kinetic_link)
             self.core:DrawLineBetween("Line_Link", self.tUnitOrb, tData.tUnit, self.config.lines.kinetic_link)
             self.core:ShowAlert("Alert_Link", self.L["alert.kinetic_link"], self.config.alerts.kinetic_link)
+        end
+
+        if self.config.alerts.kinetic_link_party then
+            ChatSystemLib.Command("/p "..self.L["hacks.kinetic_link"]:format(tData.tUnit:GetName()))
+        end
+        if self.config.alerts.kinetic_link_debug then
+            Print(self.L["hacks.kinetic_link"]:format(tData.tUnit:GetName()))
         end
 
         self.core:DrawIcon("Icon_Link"..tostring(nId), tData.tUnit, self.config.icons.kinetic_link, true, nil, nDuration)
