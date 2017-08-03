@@ -390,10 +390,11 @@ function Mod:OnBuffAdded(nId, nSpellId, sName, tData, sUnitName, nStack, nDurati
             self.core:ShowAlert("Alert_Link", self.L["alert.kinetic_link"], self.config.alerts.kinetic_link)
         end
 
-        if self.config.alerts.kinetic_link_party then
+        Print("KL on "..tData.tUnit:GetName())
+        if self.config.alerts.kinetic_link_party.enable then
             ChatSystemLib.Command("/p "..self.L["hacks.kinetic_link"]:format(tData.tUnit:GetName()))
         end
-        if self.config.alerts.kinetic_link_debug then
+        if self.config.alerts.kinetic_link_debug.enable then
             Print(self.L["hacks.kinetic_link"]:format(tData.tUnit:GetName()))
         end
 
